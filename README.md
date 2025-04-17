@@ -19,31 +19,28 @@ Foreman is a complete lifecycle management tool for physical and virtual servers
 <h2>Tooling Walkthrough:</h2>
 
 <p align="center">
-Steps to install and configure an apache server
+Steps to add your server to Foreman
 <br />
 <br />
    <p align="left">
-1. Set up the repository for Maria DB Project<br />
-  
-  - vi /etc/yum.repos.d/MariaDB.repo (and copy below contents in file)<br />
-    <br />
-[mariadb] <br />
-name=MariaDB-10.7.8<br />
-baseurl=http://archive.mariadb.org/mariadb-10.7.8/yum/centos/$releasever/$basearch<br />
-gpgkey=https://archive.mariadb.org/PublicKey<br />
-gpgcheck=1<br />
+1. SSH into your server and perform the following steps<br />
+ <br />
+- add foreman server DNS name to your client machine (path--- /etc/hosts file)<br />
+- install the Subscription Manager --on client machine<br />
+ yum -y install subscription-manager<br />
+- install the Agent certificate from the Foreman Server<br />
+ curl --insecure --output katello-ca-consumer-latest.noarch.rpm "http link for foreman site" <br />
+ - yum localinstall katello-ca-consumer-latest.noarch.rpm<br />
+ - subscribe to the Foreman Organization<br />
+ subscription-manager register --org="Procore" --activationkey="ProcoreKey"<br />
+<br />
+2.  Create Repo and Install the Katello Agent<br />
+    
 
-2. Install mariadb Server and msql client<br />
 
-- yum install MariaDB-server MariaDB-client<br />
 
 3. Start and enable mariadb server<br />
-- systemctl enable mariadb -y<br />
-- systemctl start mariadb<br />
-- systemctl status mariadb<br />
+
 
  4. Configuring MariaDB<br />
-- run the mysql_secure_installation script which will perform several security related tasks:<br />
-mariadb-secure-installation<br />
-- test by connecting mysql client with mariadb server<br />
-- mysql -u root -p
+
